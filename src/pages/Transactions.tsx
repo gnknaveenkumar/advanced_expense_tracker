@@ -80,11 +80,11 @@ const Transactions = () => {
 
   const sortedTransactions = [...transactions].reverse();
   return (
-    <div className="flex flex-col">
-      <div className="flex border border-white w-full m-auto  justify-center rounded-2xl p-2 ">
+    <div className="flex flex-col h-full p-2">
+      <div className="flex border border-white w-full   justify-center rounded-2xl my-2 p-2">
         Transaction History
       </div>
-      <div className="max-h-96 md:max-h-96 overflow-y-auto p-2 border rounded-lg">
+      <div className="flex-1 overflow-y-auto pr-2 p-2  border rounded-lg">
         {sortedTransactions.map((transaction, index) => (
           <div
             key={index}
