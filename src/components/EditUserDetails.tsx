@@ -7,6 +7,23 @@ import {
 const EditUserDetails = () => {
   const { name, setName, dob, setDob } = useContext(expenseTrackerDataContext);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const [formName, setFormName] = useState<string>("");
+  const [formDob, setFormDob] = useState<string>("");
+
+  const onCancelFunction = () => {
+    setName(name);
+    setDob(dob);
+    setFormName(name);
+    setFormDob(dob);
+    setIsEdit(false);
+  };
+
+  const onSubmitFunction = () => {
+    setName(formName);
+    setDob(formDob);
+    setIsEdit(false);
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="m-auto">Edit User Details</div>
@@ -15,26 +32,26 @@ const EditUserDetails = () => {
           <div className="flex flex-col gap-4">
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formName}
+              onChange={(e) => setFormName(e.target.value)}
               className="border p-2 rounded w-full"
             />
             <input
               type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
+              value={formDob}
+              onChange={(e) => setFormDob(e.target.value)}
               className="border p-2 rounded w-full"
             />
             <div className="flex justify-around">
               <button
-                onClick={() => setIsEdit(false)}
+                onClick={onCancelFunction}
                 className="bg-red-500 text-white py-2 rounded w-20 hover:bg-blue-600"
               >
                 Cancel
               </button>
 
               <button
-                onClick={() => setIsEdit(false)}
+                onClick={onSubmitFunction}
                 className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 w-20"
               >
                 Save
