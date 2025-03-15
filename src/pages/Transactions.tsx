@@ -1,82 +1,86 @@
+import { useContext } from "react";
 import {
   FaCircleArrowDown,
   FaCircleArrowUp,
   FaIndianRupeeSign,
 } from "react-icons/fa6";
+import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 
 const Transactions = () => {
-  const transactions = [
-    {
-      money: 2500,
-      isIncome: true,
-      category: "Salary",
-      description: "Monthly Salary",
-      date: "2025-03-01",
-    },
-    {
-      money: 200,
-      isIncome: false,
-      category: "Food",
-      description: "Dinner at Restaurant",
-      date: "2025-03-02",
-    },
-    {
-      money: 1500,
-      isIncome: true,
-      category: "Freelance",
-      description: "Website Development",
-      date: "2025-03-03",
-    },
-    {
-      money: 300,
-      isIncome: false,
-      category: "Shopping",
-      description: "New Shoes",
-      date: "2025-03-04",
-    },
-    {
-      money: 4500,
-      isIncome: true,
-      category: "Bonus",
-      description: "Performance Bonus",
-      date: "2025-03-05",
-    },
-    {
-      money: 100,
-      isIncome: false,
-      category: "Snacks",
-      description: "Evening Snacks",
-      date: "2025-03-06",
-    },
-    {
-      money: 700,
-      isIncome: false,
-      category: "Fuel",
-      description: "Petrol Refill",
-      date: "2025-03-07",
-    },
-    {
-      money: 1200,
-      isIncome: true,
-      category: "Investment",
-      description: "Stock Market Return",
-      date: "2025-03-08",
-    },
-    {
-      money: 80,
-      isIncome: false,
-      category: "Coffee",
-      description: "Starbucks Coffee",
-      date: "2025-03-09",
-    },
-    {
-      money: 500,
-      isIncome: false,
-      category: "Entertainment",
-      description: "Movie Night",
-      date: "2025-03-10",
-    },
-  ];
+  // const transactions = [
+  //   {
+  //     money: 2500,
+  //     isIncome: true,
+  //     category: "Salary",
+  //     description: "Monthly Salary",
+  //     date: "2025-03-01",
+  //   },
+  //   {
+  //     money: 200,
+  //     isIncome: false,
+  //     category: "Food",
+  //     description: "Dinner at Restaurant",
+  //     date: "2025-03-02",
+  //   },
+  //   {
+  //     money: 1500,
+  //     isIncome: true,
+  //     category: "Freelance",
+  //     description: "Website Development",
+  //     date: "2025-03-03",
+  //   },
+  //   {
+  //     money: 300,
+  //     isIncome: false,
+  //     category: "Shopping",
+  //     description: "New Shoes",
+  //     date: "2025-03-04",
+  //   },
+  //   {
+  //     money: 4500,
+  //     isIncome: true,
+  //     category: "Bonus",
+  //     description: "Performance Bonus",
+  //     date: "2025-03-05",
+  //   },
+  //   {
+  //     money: 100,
+  //     isIncome: false,
+  //     category: "Snacks",
+  //     description: "Evening Snacks",
+  //     date: "2025-03-06",
+  //   },
+  //   {
+  //     money: 700,
+  //     isIncome: false,
+  //     category: "Fuel",
+  //     description: "Petrol Refill",
+  //     date: "2025-03-07",
+  //   },
+  //   {
+  //     money: 1200,
+  //     isIncome: true,
+  //     category: "Investment",
+  //     description: "Stock Market Return",
+  //     date: "2025-03-08",
+  //   },
+  //   {
+  //     money: 80,
+  //     isIncome: false,
+  //     category: "Coffee",
+  //     description: "Starbucks Coffee",
+  //     date: "2025-03-09",
+  //   },
+  //   {
+  //     money: 500,
+  //     isIncome: false,
+  //     category: "Entertainment",
+  //     description: "Movie Night",
+  //     date: "2025-03-10",
+  //   },
+  // ];
+
+  const { transactions } = useContext(expenseTrackerDataContext);
 
   const sortedTransactions = [...transactions].reverse();
   return (

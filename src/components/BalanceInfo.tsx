@@ -4,7 +4,7 @@ import { FaFolderPlus, FaFolderMinus } from "react-icons/fa";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 
 const BalanceInfo = () => {
-  const { balance, setBalance } = useContext(expenseTrackerDataContext);
+  const { balance, expense, income } = useContext(expenseTrackerDataContext);
 
   return (
     <div className="flex flex-col gap-6 p-4 ">
@@ -19,7 +19,7 @@ const BalanceInfo = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-base">Income</span>
-            <span className="text-lg">0255222552</span>
+            <span className="text-lg">{income}</span>
           </div>
         </div>
         <div className="flex justify-center items-center gap-3 p-2 w-40 bg-green-500 rounded-2xl text-white ">
@@ -28,7 +28,7 @@ const BalanceInfo = () => {
           </div>
           <div className="flex flex-col">
             <span className="text-base">Expenses</span>
-            <span className="text-lg">1257810000</span>
+            <span className="text-lg">{expense}</span>
           </div>
         </div>
       </div>

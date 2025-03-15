@@ -1,18 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Transaction } from "../common/types";
+import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 
-interface AddTransactionProps {
-  onAddTransaction: (transaction: Transaction) => void;
-}
-
-const AddTransaction: React.FC<AddTransactionProps> = ({
-  onAddTransaction,
-}) => {
+const AddTransaction: React.FC = () => {
   const [money, setMoney] = useState<number>(0);
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [isIncome, setIsIncome] = useState<boolean>(true);
+
+  const { setTransactions, transactions } = useContext(
+    expenseTrackerDataContext
+  );
 
   // Category Lists
   const incomeCategories = [
@@ -48,7 +47,10 @@ const AddTransaction: React.FC<AddTransactionProps> = ({
       isIncome,
       date,
     };
-    onAddTransaction(newTransaction);
+    setTransactions((prevTransactions: any[]) => [
+      ...prevTransactions,
+      newTransaction,
+    ]);
     console.log(newTransaction);
 
     setMoney(0);
@@ -74,6 +76,25 @@ const AddTransaction: React.FC<AddTransactionProps> = ({
           className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
           required
         />
+
+        {/* Toggle Button (Income / Expense) */}
+        <button
+          type="button"
+          onClick={() => {
+            setIsIncome(!isIncome);
+            setCategory(""); // Reset category when toggling
+          }}
+          className="border border-gray-900 rounded-xl flex   items-center overflow-hidden"
+        >
+          <div
+            className={`w-1/2 p-2 ${isIncome ? "" : "bg-red-500 text-white"}`}
+          >
+            Expense
+          </div>
+          <div className={`w-1/2 p-2  ${isIncome ? "bg-green-600   " : ""}`}>
+            Income
+          </div>
+        </button>
 
         <select
           value={category}
@@ -108,25 +129,6 @@ const AddTransaction: React.FC<AddTransactionProps> = ({
           required
           className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
         />
-
-        {/* Toggle Button (Income / Expense) */}
-        <button
-          type="button"
-          onClick={() => {
-            setIsIncome(!isIncome);
-            setCategory(""); // Reset category when toggling
-          }}
-          className="border border-gray-900 rounded-xl flex   items-center overflow-hidden"
-        >
-          <div
-            className={`w-1/2 p-2 ${isIncome ? "" : "bg-red-500 text-white"}`}
-          >
-            Expense
-          </div>
-          <div className={`w-1/2 p-2  ${isIncome ? "bg-green-600   " : ""}`}>
-            Income
-          </div>
-        </button>
 
         <button
           type="submit"
