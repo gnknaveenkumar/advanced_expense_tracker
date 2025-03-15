@@ -3,14 +3,8 @@ import { Transaction } from "../common/types";
 import { FaFolderPlus, FaFolderMinus } from "react-icons/fa";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 
-interface DisplayInfoProps {
-  transactions: Transaction[];
-}
-
-const BalanceInfo: React.FC<DisplayInfoProps> = ({ transactions }) => {
-  const [balance, setBalance] = useState(1588);
-
-  const { name, setName, transaction } = useContext(expenseTrackerDataContext);
+const BalanceInfo = () => {
+  const { balance, setBalance } = useContext(expenseTrackerDataContext);
 
   return (
     <div className="flex flex-col gap-6 p-4 ">
