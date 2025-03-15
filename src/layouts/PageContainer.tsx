@@ -8,15 +8,16 @@ interface PageContainerProps {
 }
 const PageContainer: React.FC = () => {
   return (
-    <div className="flex flex-col">
-      <div className="h-16 border border-red-100">
+    <div className="flex flex-col h-screen">
+      <div className="h-16 border border-red-100   w-full bg-gray-100">
         <Header />
       </div>
 
-      <div>
+      <div className="flex-1 overflow-hidden">
         <Outlet />
       </div>
-      <div className="p-2 bg-gray-100 text-center fixed bottom-0 w-full flex justify-around">
+
+      <div className="p-2 bg-gray-100 text-center   w-full flex justify-around">
         <NavBar />
       </div>
     </div>
