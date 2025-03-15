@@ -41,27 +41,44 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const [income, setIncome] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
 
+  const STORAGE_KEY = "transactions";
+
+  useEffect(() => {
+    const storedTransactions = localStorage.getItem(STORAGE_KEY);
+    if (storedTransactions) {
+      setTransactions(JSON.parse(storedTransactions));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (transactions.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+    }
+  }, [transactions]);
+
   useEffect(() => {
     if (transactions.length === 0) return;
+    console.log(" t ", transactions);
 
-    const lastTransaction = transactions.at(-1);
-    if (!lastTransaction) return;
+    // const lastTransaction = transactions.at(-1);
+    // if (!lastTransaction) return;
+    const income = transactions.length
+      ? transactions
+          .filter((t) => t.isIncome)
+          .reduce((total, t) => total + t.money, 0)
+      : 0;
 
-    setBalance((prevBalance: number) =>
-      lastTransaction.isIncome
-        ? prevBalance + lastTransaction.money
-        : prevBalance - lastTransaction.money
-    );
+    const expense = transactions.length
+      ? transactions
+          .filter((t) => !t.isIncome)
+          .reduce((total, t) => total + t.money, 0)
+      : 0;
 
-    setIncome((prevIncome: number) =>
-      lastTransaction.isIncome ? prevIncome + lastTransaction.money : prevIncome
-    );
+    setBalance(income - expense);
 
-    setExpense((prevExpense: number) =>
-      lastTransaction.isIncome
-        ? prevExpense
-        : prevExpense + lastTransaction.money
-    );
+    setIncome(income);
+
+    setExpense(expense);
   }, [transactions]);
 
   console.log("balance", balance);

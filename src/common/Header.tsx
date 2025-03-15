@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 import { getFormattedDateAndDay, getFormattedMonth } from "../utility/utils";
+import profilePic from "../profile_pic.jpg";
 
 function Header() {
   const { name } = useContext(expenseTrackerDataContext);
@@ -14,7 +15,7 @@ function Header() {
         <div>{name} </div>
         <div className="w-12 h-12 rounded-full overflow-hidden border-4 border-blue-500 shadow-md">
           <img
-            src="./profile_pic.jpg"
+            src={profilePic}
             alt="pic"
             className="w-full h-full object-cover"
           />
