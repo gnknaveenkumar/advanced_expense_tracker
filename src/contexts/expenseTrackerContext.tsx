@@ -5,7 +5,20 @@ const expenseTrackerDataContext = createContext<{
   setName: Function;
   transaction: Array<any>; // any[]
   setTransaction: Function;
-}>({ name: "", setName: () => {}, transaction: [], setTransaction: () => {} });
+  balance: number;
+  setBalance: Function;
+  dob: string;
+  setDob: Function;
+}>({
+  name: "",
+  setName: () => {},
+  transaction: [],
+  setTransaction: () => {},
+  balance: 0,
+  setBalance: () => {},
+  dob: "",
+  setDob: () => {},
+});
 
 type props = {
   children: React.ReactNode;
@@ -14,6 +27,8 @@ type props = {
 const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const [name, setName] = useState<string>(" lol ");
   const [transaction, setTransaction] = useState<Array<any>>([]);
+  const [balance, setBalance] = useState<number>(0);
+  const [dob, setDob] = useState<string>("DD-MM-YYYY");
 
   return (
     <expenseTrackerDataContext.Provider
@@ -22,6 +37,10 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setName,
         transaction,
         setTransaction,
+        balance,
+        setBalance,
+        dob,
+        setDob,
       }}
     >
       {children}
