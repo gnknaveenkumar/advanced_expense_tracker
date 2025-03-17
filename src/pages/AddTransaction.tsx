@@ -8,6 +8,7 @@ const AddTransaction: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [isIncome, setIsIncome] = useState<boolean>(true);
+  const [id, setId] = useState<number>(Date.now());
 
   const { setTransactions, transactions } = useContext(
     expenseTrackerDataContext
@@ -41,6 +42,7 @@ const AddTransaction: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newTransaction: Transaction = {
+      id,
       money,
       category,
       description,

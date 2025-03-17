@@ -4,6 +4,8 @@ import {
   FaCircleArrowUp,
   FaIndianRupeeSign,
 } from "react-icons/fa6";
+import { MdOutlineEdit } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 
 const Transactions = () => {
@@ -88,7 +90,7 @@ const Transactions = () => {
       <div className="flex border border-white w-full   justify-center rounded-2xl my-2 p-2">
         Transaction History
       </div>
-      <div className="flex-1 overflow-y-auto pr-2 p-2  border rounded-lg">
+      <div className="flex-1 overflow-y-auto pr-2 p-2  border rounded-lg ">
         {sortedTransactions.map((transaction, index) => (
           <div
             key={index}
@@ -100,18 +102,23 @@ const Transactions = () => {
                 {transaction.description}
               </span>
             </div>
+            <div className="flex gap-2 items-center">
+              <div className=" flex flex-col justify-end">
+                <span
+                  className={`font-semibold text-lg ${
+                    transaction.isIncome ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {transaction.isIncome
+                    ? `+ ${transaction.money}`
+                    : `- ${transaction.money}`}
+                </span>
+                <span className="text-gray-500 text-sm">
+                  {transaction.date}
+                </span>
+              </div>
 
-            <div className=" flex flex-col">
-              <span
-                className={`font-semibold text-lg ${
-                  transaction.isIncome ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {transaction.isIncome
-                  ? `+ ${transaction.money}`
-                  : `- ${transaction.money}`}
-              </span>
-              <span className="text-gray-500 text-sm">{transaction.date}</span>
+              <FaRegEdit size={24} className="text-blue-500" />
             </div>
           </div>
         ))}
