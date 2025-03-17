@@ -1,6 +1,8 @@
 import { createContext, FC, useEffect, useState } from "react";
 import { Transaction, TransactionType } from "../common/types";
 import AddTransactionModal from "../components/AddTransactionModal";
+import DeleteTransactionModal from "../components/DeleteTransactionModal";
+import { json } from "react-router-dom";
 
 const expenseTrackerDataContext = createContext<{
   name: string;
@@ -19,6 +21,8 @@ const expenseTrackerDataContext = createContext<{
   setIsAddTransactionModalOpen: Function;
   transactionAction: TransactionType;
   setTransactionAction: Function;
+  isDeleteTransactionModalOpen: boolean;
+  SetIsDeleteTransactionModalOpen: Function;
 }>({
   name: "",
   setName: () => {},
@@ -36,6 +40,8 @@ const expenseTrackerDataContext = createContext<{
   setIsAddTransactionModalOpen: () => {},
   transactionAction: { id: null, action: null },
   setTransactionAction: () => {},
+  isDeleteTransactionModalOpen: false,
+  SetIsDeleteTransactionModalOpen: () => {},
 });
 
 type props = {
@@ -43,10 +49,10 @@ type props = {
 };
 
 const ExpenseTrackerContext: FC<props> = ({ children }) => {
-  const [name, setName] = useState<string>(" Your Name ");
+  const [name, setName] = useState<string>("");
   const [transactions, setTransactions] = useState<Array<Transaction>>([]);
   const [balance, setBalance] = useState<number>(0);
-  const [dob, setDob] = useState<string>("DD-MM-YYYY");
+  const [dob, setDob] = useState<string>("");
   const [income, setIncome] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
@@ -56,12 +62,27 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     action: null,
   });
 
+  const [isDeleteTransactionModalOpen, SetIsDeleteTransactionModalOpen] =
+    useState<boolean>(false);
+
   const STORAGE_KEY = "transactions";
+  const STORAGE_KEY_NAME = "name";
+  const STORAGE_KEY_DOB = "dob";
 
   useEffect(() => {
     const storedTransactions = localStorage.getItem(STORAGE_KEY);
+    const storedName = localStorage.getItem(STORAGE_KEY_NAME);
+    const storedDOB = localStorage.getItem(STORAGE_KEY_DOB);
     if (storedTransactions) {
       setTransactions(JSON.parse(storedTransactions));
+    }
+
+    if (storedName) {
+      setName(storedName);
+    }
+
+    if (storedDOB) {
+      setDob(storedDOB);
     }
   }, []);
 
@@ -70,6 +91,18 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
     }
   }, [transactions]);
+
+  useEffect(() => {
+    if (dob) {
+      localStorage.setItem(STORAGE_KEY_DOB, dob);
+    }
+  }, [dob]);
+
+  useEffect(() => {
+    if (name) {
+      localStorage.setItem(STORAGE_KEY_NAME, name);
+    }
+  }, [name]);
 
   useEffect(() => {
     if (transactions.length === 0) return;
@@ -113,10 +146,13 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setIsAddTransactionModalOpen,
         transactionAction,
         setTransactionAction,
+        isDeleteTransactionModalOpen,
+        SetIsDeleteTransactionModalOpen,
       }}
     >
       {children}
       {isAddTransactionModalOpen && <AddTransactionModal />}
+      {isDeleteTransactionModalOpen && <DeleteTransactionModal />}
     </expenseTrackerDataContext.Provider>
   );
 };

@@ -8,6 +8,7 @@ const AddTransactionModal = () => {
     isAddTransactionModalOpen,
     setIsAddTransactionModalOpen,
     setTransactions,
+    setTransactionAction,
     transactionAction,
     transactions,
   } = useContext(expenseTrackerDataContext);
@@ -46,25 +47,34 @@ const AddTransactionModal = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newTransaction: Transaction = {
-      id,
-      money,
-      category,
-      description,
-      isIncome,
-      date,
-    };
-    setTransactions((prevTransactions: any[]) => [
-      ...prevTransactions,
-      newTransaction,
-    ]);
 
-    if (transactionAction.action === "DELETE") {
-      console.log("deleting", transactionAction.action);
-      const updatedTransactions = transactions.filter(
-        (trans: any) => trans.id !== transactionAction.id
+    if (transactionAction.id === null) {
+      const newTransaction: Transaction = {
+        id,
+        money,
+        category,
+        description,
+        isIncome,
+        date,
+      };
+      setTransactions((prevTransactions: any[]) => [
+        ...prevTransactions,
+        newTransaction,
+      ]);
+    } else {
+      const duplicateTransactions = [...transactions];
+      const updateTransaction = duplicateTransactions.find(
+        (trans: any) => trans.id === transactionAction.id
       );
-      setTransactions(updatedTransactions);
+      if (updateTransaction) {
+        updateTransaction.category = category;
+        updateTransaction.money = money;
+        updateTransaction.isIncome = isIncome;
+        updateTransaction.description = description;
+        updateTransaction.date = date;
+      }
+
+      setTransactions(duplicateTransactions);
     }
 
     setMoney(0);
@@ -73,12 +83,18 @@ const AddTransactionModal = () => {
     setIsIncome(true);
     setDate("");
 
-    transactionAction.action = null;
+    setTransactionAction({
+      id: null,
+      action: null,
+    });
     setIsAddTransactionModalOpen(false);
   };
 
   const handleCancel = () => {
-    transactionAction.action = null;
+    setTransactionAction({
+      id: null,
+      action: null,
+    });
     setIsAddTransactionModalOpen(false);
   };
 
@@ -106,7 +122,6 @@ const AddTransactionModal = () => {
 
   useEffect(() => {
     if (transactionAction.id && transactionAction.action != null) {
-      //
       const editTransactionItem: any = transactions.find(
         (tran) => tran.id === transactionAction.id
       );

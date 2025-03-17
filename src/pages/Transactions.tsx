@@ -83,15 +83,23 @@ const Transactions = () => {
   //   },
   // ];
 
-  const { transactions, setTransactionAction, setIsAddTransactionModalOpen } =
-    useContext(expenseTrackerDataContext);
+  const {
+    transactions,
+    setTransactionAction,
+    setIsAddTransactionModalOpen,
+    SetIsDeleteTransactionModalOpen,
+  } = useContext(expenseTrackerDataContext);
 
   const sortedTransactions = [...transactions].reverse();
   return (
     <div className="flex flex-col h-full p-2">
-      <div className="flex border border-white w-full   justify-center rounded-2xl my-2 p-2 items-center">
+      {/* <div className="flex border border-white w-full   justify-center rounded-2xl my-2 p-2 items-center">
         Transaction History
-      </div>
+      </div> */}
+
+      <h1 className="text-center text-2xl font-bold mb-4">
+        Transaction History
+      </h1>
       <button
         onClick={() => {
           setIsAddTransactionModalOpen(true);
@@ -143,7 +151,7 @@ const Transactions = () => {
                   size={24}
                   className="text-red-500"
                   onClick={() => {
-                    setIsAddTransactionModalOpen(true);
+                    SetIsDeleteTransactionModalOpen(true);
                     setTransactionAction({
                       id: transaction.id,
                       action: "DELETE",

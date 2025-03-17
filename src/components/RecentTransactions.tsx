@@ -8,14 +8,6 @@ import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 const RecentTransactions = () => {
   const { transactions } = useContext(expenseTrackerDataContext);
 
-  // const transactions = [
-  //   { money: 15000, isIncome: true },
-  //   { money: 8000, isIncome: false },
-  //   { money: 2000, isIncome: true },
-  //   { money: 5000, isIncome: false },
-  //   { money: 10000, isIncome: true },
-  // ];
-
   const recentTransactions = transactions.slice(-4).reverse();
 
   return (

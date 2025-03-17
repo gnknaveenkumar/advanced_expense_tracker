@@ -17,7 +17,7 @@ const PageContainer: React.FC = () => {
         <Outlet />
       </div>
 
-      <div className="p-2 bg-gray-100 text-center   w-full flex justify-around">
+      <div className="py-2 bg-gray-100 text-center   w-full flex justify-around">
         <NavBar />
       </div>
     </div>
