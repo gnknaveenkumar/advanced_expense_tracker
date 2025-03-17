@@ -19,18 +19,22 @@ export const getFormattedMonth = (): string => {
   return month;
 };
 
-export const getTransactionSummaryByType = (transactions: any[]) => {
+export const getTransactionSummaryByType = (transactions: Transaction[]) => {
+  console.log(transactions);
   const { incomeTotal, expenseTotal } = transactions.reduce(
     (acc, transaction) => {
-      if (transaction.type === "income") {
-        acc.incomeTotal += transaction.amount;
-      } else if (transaction.type === "expense") {
-        acc.expenseTotal += transaction.amount;
+      if (transaction.isIncome) {
+        acc.incomeTotal += transaction.money;
+      } else {
+        acc.expenseTotal += transaction.money;
       }
       return acc;
     },
     { incomeTotal: 0, expenseTotal: 0 }
   );
+
+  console.log("incomeTotal", incomeTotal);
+  console.log("expensetodatal,", expenseTotal);
 
   return {
     incomeTotal,
