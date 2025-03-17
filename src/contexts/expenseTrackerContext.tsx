@@ -1,5 +1,6 @@
 import { createContext, FC, useEffect, useState } from "react";
 import { Transaction } from "../common/types";
+import AddTransactionModal from "../components/AddTransactionModal";
 
 const expenseTrackerDataContext = createContext<{
   name: string;
@@ -14,6 +15,8 @@ const expenseTrackerDataContext = createContext<{
   setIncome: Function;
   expense: number;
   setExpense: Function;
+  isAddTransactionModalOpen: boolean;
+  setIsAddTransactionModalOpen: Function;
 }>({
   name: "",
   setName: () => {},
@@ -27,6 +30,8 @@ const expenseTrackerDataContext = createContext<{
   setIncome: () => {},
   expense: 0,
   setExpense: () => {},
+  isAddTransactionModalOpen: false,
+  setIsAddTransactionModalOpen: () => {},
 });
 
 type props = {
@@ -40,6 +45,8 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const [dob, setDob] = useState<string>("DD-MM-YYYY");
   const [income, setIncome] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
+  const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
+    useState(false);
 
   const STORAGE_KEY = "transactions";
 
@@ -81,9 +88,6 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     setExpense(expense);
   }, [transactions]);
 
-  console.log("balance", balance);
-  console.log("income", income);
-  console.log("expense", expense);
   return (
     <expenseTrackerDataContext.Provider
       value={{
@@ -99,9 +103,12 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setIncome,
         expense,
         setExpense,
+        isAddTransactionModalOpen,
+        setIsAddTransactionModalOpen,
       }}
     >
       {children}
+      {isAddTransactionModalOpen && <AddTransactionModal />}
     </expenseTrackerDataContext.Provider>
   );
 };
