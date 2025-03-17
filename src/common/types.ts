@@ -6,3 +6,8 @@ export interface Transaction {
   isIncome: boolean;
   date: string;
 }
+
+export type TransactionType = {
+  id: number | null;
+  action: "EDIT" | "DELETE" | null;
+};

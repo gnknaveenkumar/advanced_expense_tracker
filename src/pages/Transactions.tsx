@@ -7,6 +7,7 @@ import {
 import { MdOutlineEdit } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
+import { MdDelete } from "react-icons/md";
 
 const Transactions = () => {
   // const transactions = [
@@ -82,14 +83,23 @@ const Transactions = () => {
   //   },
   // ];
 
-  const { transactions } = useContext(expenseTrackerDataContext);
+  const { transactions, setTransactionAction, setIsAddTransactionModalOpen } =
+    useContext(expenseTrackerDataContext);
 
   const sortedTransactions = [...transactions].reverse();
   return (
     <div className="flex flex-col h-full p-2">
-      <div className="flex border border-white w-full   justify-center rounded-2xl my-2 p-2">
+      <div className="flex border border-white w-full   justify-center rounded-2xl my-2 p-2 items-center">
         Transaction History
       </div>
+      <button
+        onClick={() => {
+          setIsAddTransactionModalOpen(true);
+        }}
+        className="border bg-green-500 text-white flex justify-center w-20 rounded-3xl items-center ml-auto mr-2 h-8 mb-2"
+      >
+        Add
+      </button>
       <div className="flex-1 overflow-y-auto pr-2 p-2  border rounded-lg ">
         {sortedTransactions.map((transaction, index) => (
           <div
@@ -117,19 +127,34 @@ const Transactions = () => {
                   {transaction.date}
                 </span>
               </div>
-
-              <FaRegEdit size={24} className="text-blue-500" />
+              <div className="flex flex-col gap-2">
+                <FaRegEdit
+                  size={20}
+                  className="text-blue-500"
+                  onClick={() => {
+                    setIsAddTransactionModalOpen(true);
+                    setTransactionAction({
+                      id: transaction.id,
+                      action: "EDIT",
+                    });
+                  }}
+                />
+                <MdDelete
+                  size={24}
+                  className="text-red-500"
+                  onClick={() => {
+                    setIsAddTransactionModalOpen(true);
+                    setTransactionAction({
+                      id: transaction.id,
+                      action: "DELETE",
+                    });
+                  }}
+                />
+              </div>
             </div>
           </div>
         ))}
       </div>
-      {/* <div className="flex justify-between border p-2 border-white rounded-2xl">
-        <div className="flex flex-col">
-          <span>Shopping</span>
-          <span>Buy some groceries</span>
-        </div>
-        <div> - 530</div>
-      </div> */}
     </div>
   );
 };

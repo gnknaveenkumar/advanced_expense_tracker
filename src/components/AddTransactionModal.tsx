@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 import { Transaction } from "../common/types";
 
@@ -8,6 +8,8 @@ const AddTransactionModal = () => {
     isAddTransactionModalOpen,
     setIsAddTransactionModalOpen,
     setTransactions,
+    transactionAction,
+    transactions,
   } = useContext(expenseTrackerDataContext);
 
   const [money, setMoney] = useState<number>(0);
@@ -56,7 +58,14 @@ const AddTransactionModal = () => {
       ...prevTransactions,
       newTransaction,
     ]);
-    console.log(newTransaction);
+
+    if (transactionAction.action === "DELETE") {
+      console.log("deleting", transactionAction.action);
+      const updatedTransactions = transactions.filter(
+        (trans: any) => trans.id !== transactionAction.id
+      );
+      setTransactions(updatedTransactions);
+    }
 
     setMoney(0);
     setCategory("");
@@ -64,35 +73,53 @@ const AddTransactionModal = () => {
     setIsIncome(true);
     setDate("");
 
+    transactionAction.action = null;
     setIsAddTransactionModalOpen(false);
   };
-
-  //   const handleOk = () => {
-  //     const newTransaction: Transaction = {
-  //       id,
-  //       money,
-  //       category,
-  //       description,
-  //       isIncome,
-  //       date,
-  //     };
-  //     setTransactions((prevTransactions: any[]) => [
-  //       ...prevTransactions,
-  //       newTransaction,
-  //     ]);
-
-  //     setMoney(0);
-  //     setCategory("");
-  //     setDescription("");
-  //     setIsIncome(true);
-  //     setDate("");
-
-  //     setIsAddTransactionModalOpen(false);
-  //   };
 
   const handleCancel = () => {
+    transactionAction.action = null;
     setIsAddTransactionModalOpen(false);
   };
+
+  const getTransactionTitleText = () => {
+    switch (transactionAction.action) {
+      case "EDIT":
+        return "Edit Transaction";
+      case "DELETE":
+        return "Delete Transaction";
+      default:
+        return "Add Transaction";
+    }
+  };
+
+  const getSaveOrDeleteText = () => {
+    switch (transactionAction.action) {
+      case "EDIT":
+        return "Save Transaction";
+      case "DELETE":
+        return "Delete Transaction";
+      default:
+        return "Add Transaction";
+    }
+  };
+
+  useEffect(() => {
+    if (transactionAction.id && transactionAction.action != null) {
+      //
+      const editTransactionItem: any = transactions.find(
+        (tran) => tran.id === transactionAction.id
+      );
+
+      setId(editTransactionItem?.id);
+      setMoney(editTransactionItem?.money);
+      setCategory(editTransactionItem?.category);
+      setDate(editTransactionItem?.date);
+      setDescription(editTransactionItem?.description);
+      setIsIncome(editTransactionItem?.isIncome);
+    }
+  }, [transactionAction]);
+
   return (
     <div>
       <Modal
@@ -106,7 +133,7 @@ const AddTransactionModal = () => {
       >
         <div className="flex flex-col">
           <div className="flex border border-white w-full m-auto  justify-center rounded-2xl p-2 mb-3">
-            Add Transaction
+            {getTransactionTitleText()}
           </div>
           <form
             onSubmit={handleSubmit}
@@ -182,7 +209,7 @@ const AddTransactionModal = () => {
               type="submit"
               className="w-1/2 m-auto p-2 bg-purple-700 text-white rounded-xl"
             >
-              Add Transaction
+              {getSaveOrDeleteText()}
             </button>
           </form>
         </div>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Header from "../common/Header";
-import NavBar from "../common/NarBar";
+import NavBar from "../common/NavBar";
 import { Outlet } from "react-router-dom";
 
 interface PageContainerProps {

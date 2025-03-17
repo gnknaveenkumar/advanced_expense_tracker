@@ -1,5 +1,5 @@
 import { createContext, FC, useEffect, useState } from "react";
-import { Transaction } from "../common/types";
+import { Transaction, TransactionType } from "../common/types";
 import AddTransactionModal from "../components/AddTransactionModal";
 
 const expenseTrackerDataContext = createContext<{
@@ -17,6 +17,8 @@ const expenseTrackerDataContext = createContext<{
   setExpense: Function;
   isAddTransactionModalOpen: boolean;
   setIsAddTransactionModalOpen: Function;
+  transactionAction: TransactionType;
+  setTransactionAction: Function;
 }>({
   name: "",
   setName: () => {},
@@ -32,6 +34,8 @@ const expenseTrackerDataContext = createContext<{
   setExpense: () => {},
   isAddTransactionModalOpen: false,
   setIsAddTransactionModalOpen: () => {},
+  transactionAction: { id: null, action: null },
+  setTransactionAction: () => {},
 });
 
 type props = {
@@ -47,6 +51,10 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const [expense, setExpense] = useState<number>(0);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
     useState(false);
+  const [transactionAction, setTransactionAction] = useState<TransactionType>({
+    id: null,
+    action: null,
+  });
 
   const STORAGE_KEY = "transactions";
 
@@ -67,8 +75,6 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     if (transactions.length === 0) return;
     console.log(" t ", transactions);
 
-    // const lastTransaction = transactions.at(-1);
-    // if (!lastTransaction) return;
     const income = transactions.length
       ? transactions
           .filter((t) => t.isIncome)
@@ -105,6 +111,8 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setExpense,
         isAddTransactionModalOpen,
         setIsAddTransactionModalOpen,
+        transactionAction,
+        setTransactionAction,
       }}
     >
       {children}
