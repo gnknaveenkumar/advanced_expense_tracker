@@ -35,12 +35,14 @@ const EditUserDetails = () => {
               value={formName}
               onChange={(e) => setFormName(e.target.value)}
               className="border p-2 rounded w-full"
+              placeholder="Enter Your Name"
             />
             <input
               type="date"
               value={formDob}
               onChange={(e) => setFormDob(e.target.value)}
               className="border p-2 rounded w-full"
+              placeholder="DD-MM-YYYY"
             />
             <div className="flex justify-around">
               <button
