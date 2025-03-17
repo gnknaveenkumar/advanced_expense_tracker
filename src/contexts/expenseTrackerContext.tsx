@@ -106,7 +106,6 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
 
   useEffect(() => {
     if (transactions.length === 0) return;
-    console.log(" t ", transactions);
 
     const income = transactions.length
       ? transactions
