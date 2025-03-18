@@ -9,7 +9,7 @@ interface PageContainerProps {
 
 const PageContainer: React.FC = () => {
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col  h-[100dvh] overflow-hidden">
       {/* Header Section */}
       <div className="h-16 border border-red-100 w-full bg-gray-100">
         <Header />
