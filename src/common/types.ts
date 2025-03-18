@@ -4,7 +4,7 @@ export interface Transaction {
   category: string;
   description: string;
   isIncome: boolean;
-  date: string;
+  date: number;
 }
 
 export type TransactionType = {

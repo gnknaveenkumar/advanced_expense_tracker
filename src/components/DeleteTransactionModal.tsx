@@ -11,6 +11,11 @@ const DeleteTransactionModal = () => {
     transactions,
     setTransactionAction,
     setTransactions,
+    isClearAllTransactions,
+    setIsClearAllTransactions,
+    setBalance,
+    setIncome,
+    setExpense,
   } = useContext(expenseTrackerDataContext);
 
   const handleOk = () => {
@@ -19,6 +24,15 @@ const DeleteTransactionModal = () => {
         (trans: any) => trans.id !== transactionAction.id
       );
       setTransactions(updatedTransactions);
+    }
+    console.log("isclearalltrue", isClearAllTransactions);
+    if (isClearAllTransactions) {
+      setTransactions([]);
+      localStorage.removeItem("transactions");
+      setIncome(0);
+      setBalance(0);
+      setExpense(0);
+      setIsClearAllTransactions(false);
     }
     setTransactionAction({
       id: null,
@@ -32,13 +46,18 @@ const DeleteTransactionModal = () => {
       id: null,
       action: null,
     });
+    setIsClearAllTransactions(false);
     SetIsDeleteTransactionModalOpen(false);
   };
 
   return (
     <div>
       <Modal
-        title="Delete Transaction"
+        title={
+          isClearAllTransactions
+            ? "Clear All Transactions"
+            : "Delete Transaction"
+        }
         open={isDeleteTransactionModalOpen}
         // onOk={handleOk}
         onCancel={handleCancel}
@@ -47,7 +66,11 @@ const DeleteTransactionModal = () => {
       >
         <div className="flex flex-col ">
           <p>Are You Sure..! </p>
-          <p>Do you want to delete this transaction</p>
+          <p>
+            {isClearAllTransactions
+              ? "Do you want to clear all the transactions?"
+              : "Do you want to delete this transaction?"}
+          </p>
 
           <div className="flex gap-4 justify-center mt-4">
             <button
@@ -60,7 +83,7 @@ const DeleteTransactionModal = () => {
               onClick={handleOk}
               className=" bg-red-500 text-white h-7 px-2 rounded-2xl"
             >
-              Delete Transaction
+              {isClearAllTransactions ? "Clear All" : "Delete Transaction"}
             </button>
           </div>
         </div>

@@ -23,6 +23,8 @@ const expenseTrackerDataContext = createContext<{
   setTransactionAction: Function;
   isDeleteTransactionModalOpen: boolean;
   SetIsDeleteTransactionModalOpen: Function;
+  isClearAllTransactions: boolean;
+  setIsClearAllTransactions: Function;
 }>({
   name: "",
   setName: () => {},
@@ -42,6 +44,8 @@ const expenseTrackerDataContext = createContext<{
   setTransactionAction: () => {},
   isDeleteTransactionModalOpen: false,
   SetIsDeleteTransactionModalOpen: () => {},
+  isClearAllTransactions: false,
+  setIsClearAllTransactions: () => {},
 });
 
 type props = {
@@ -63,6 +67,9 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   });
 
   const [isDeleteTransactionModalOpen, SetIsDeleteTransactionModalOpen] =
+    useState<boolean>(false);
+
+  const [isClearAllTransactions, setIsClearAllTransactions] =
     useState<boolean>(false);
 
   const STORAGE_KEY = "transactions";
@@ -147,6 +154,8 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setTransactionAction,
         isDeleteTransactionModalOpen,
         SetIsDeleteTransactionModalOpen,
+        isClearAllTransactions,
+        setIsClearAllTransactions,
       }}
     >
       {children}

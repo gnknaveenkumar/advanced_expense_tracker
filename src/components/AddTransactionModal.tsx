@@ -16,7 +16,7 @@ const AddTransactionModal = () => {
   const [money, setMoney] = useState<number>(0);
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<number>(Date.now());
   const [isIncome, setIsIncome] = useState<boolean>(true);
   const [id, setId] = useState<number>(Date.now());
 
@@ -57,6 +57,7 @@ const AddTransactionModal = () => {
         isIncome,
         date,
       };
+      console.log("newTransaction", newTransaction);
       setTransactions((prevTransactions: any[]) => [
         ...prevTransactions,
         newTransaction,
@@ -81,7 +82,7 @@ const AddTransactionModal = () => {
     setCategory("");
     setDescription("");
     setIsIncome(true);
-    setDate("");
+    setDate(0);
 
     setTransactionAction({
       id: null,
@@ -212,13 +213,13 @@ const AddTransactionModal = () => {
             />
 
             {/* Date Picker */}
-            <input
+            {/* <input
               type="date"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={(e) => new Date(e.target.value).getTime()}
               required
               className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
-            />
+            /> */}
 
             <button
               type="submit"

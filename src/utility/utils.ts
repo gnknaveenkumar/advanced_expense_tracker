@@ -33,9 +33,6 @@ export const getTransactionSummaryByType = (transactions: Transaction[]) => {
     { incomeTotal: 0, expenseTotal: 0 }
   );
 
-  console.log("incomeTotal", incomeTotal);
-  console.log("expensetodatal,", expenseTotal);
-
   return {
     incomeTotal,
     expenseTotal,
@@ -44,4 +41,12 @@ export const getTransactionSummaryByType = (transactions: Transaction[]) => {
       { name: "Expense", value: expenseTotal },
     ],
   };
+};
+
+export const formatDate = (timestamp: number): string => {
+  return new Date(timestamp).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 };
