@@ -74,7 +74,7 @@ const Transactions = () => {
                     : `- ${transaction.money}`}
                 </span>
                 <span className="text-gray-500 text-sm">
-                  {formatDate(transaction.date)}
+                  {transaction.date}
                 </span>
               </div>
               <div className="flex flex-col gap-2">

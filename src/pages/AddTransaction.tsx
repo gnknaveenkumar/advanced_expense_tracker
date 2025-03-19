@@ -6,7 +6,7 @@ const AddTransaction: React.FC = () => {
   const [money, setMoney] = useState<number>(0);
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<number>(Date.now());
+  const [date, setDate] = useState<string>("");
   const [isIncome, setIsIncome] = useState<boolean>(true);
   const [id, setId] = useState<number>(Date.now());
 
@@ -59,7 +59,7 @@ const AddTransaction: React.FC = () => {
     setCategory("");
     setDescription("");
     setIsIncome(true);
-    setDate(0);
+    setDate("");
   };
   return (
     <div className="flex flex-col">
@@ -123,14 +123,14 @@ const AddTransaction: React.FC = () => {
           className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
         />
 
-        {/* Date Picker
+        {/* Date Picker */}
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
           required
           className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
-        /> */}
+        />
 
         <button
           type="submit"

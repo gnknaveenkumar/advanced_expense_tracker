@@ -20,7 +20,6 @@ export const getFormattedMonth = (): string => {
 };
 
 export const getTransactionSummaryByType = (transactions: Transaction[]) => {
-  console.log(transactions);
   const { incomeTotal, expenseTotal } = transactions.reduce(
     (acc, transaction) => {
       if (transaction.isIncome) {

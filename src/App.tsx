@@ -37,7 +37,7 @@ function App() {
             <Route path="/" element={<PageContainer />}>
               <Route path="/" element={<Home />} />
               <Route path="/transactions" element={<Transactions />} />
-              <Route path="/addTransaction" element={<AddTransaction />} />
+              {/* <Route path="/addTransaction" element={<AddTransaction />} /> */}
               <Route path="/statictics" element={<Statictics />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
