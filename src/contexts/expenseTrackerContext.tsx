@@ -3,6 +3,10 @@ import { Transaction, TransactionType } from "../common/types";
 import AddTransactionModal from "../components/AddTransactionModal";
 import DeleteTransactionModal from "../components/DeleteTransactionModal";
 import { json } from "react-router-dom";
+import {
+  getFilteredTransactionsByMonth,
+  getMonthAndYear,
+} from "../utility/utils";
 
 const expenseTrackerDataContext = createContext<{
   name: string;
@@ -25,6 +29,12 @@ const expenseTrackerDataContext = createContext<{
   SetIsDeleteTransactionModalOpen: Function;
   isClearAllTransactions: boolean;
   setIsClearAllTransactions: Function;
+  months: Array<string>;
+  setMonths: Function;
+  filteredTransactions: Array<any>;
+  setFilteredTransactions: Function;
+  selectedMonth: string;
+  setSelectedMonth: Function;
 }>({
   name: "",
   setName: () => {},
@@ -46,6 +56,12 @@ const expenseTrackerDataContext = createContext<{
   SetIsDeleteTransactionModalOpen: () => {},
   isClearAllTransactions: false,
   setIsClearAllTransactions: () => {},
+  months: [],
+  setMonths: () => {},
+  filteredTransactions: [],
+  setFilteredTransactions: () => {},
+  selectedMonth: "",
+  setSelectedMonth: () => {},
 });
 
 type props = {
@@ -59,8 +75,11 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const [dob, setDob] = useState<string>("");
   const [income, setIncome] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
+  const [months, setMonths] = useState<string[]>([]);
+  const [filteredTransactions, setFilteredTransactions] = useState<any>([]);
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
     useState(false);
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [transactionAction, setTransactionAction] = useState<TransactionType>({
     id: null,
     action: null,
@@ -77,11 +96,11 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const STORAGE_KEY_DOB = "dob";
 
   useEffect(() => {
-    const storedTransactions = localStorage.getItem(STORAGE_KEY);
+    const storedTransactionsStr = localStorage.getItem(STORAGE_KEY);
     const storedName = localStorage.getItem(STORAGE_KEY_NAME);
     const storedDOB = localStorage.getItem(STORAGE_KEY_DOB);
-    if (storedTransactions) {
-      setTransactions(JSON.parse(storedTransactions));
+    if (storedTransactionsStr) {
+      setTransactions(JSON.parse(storedTransactionsStr));
     }
 
     if (storedName) {
@@ -91,7 +110,37 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     if (storedDOB) {
       setDob(storedDOB);
     }
+
+    // update months
+    updateMonths(storedTransactionsStr || "");
   }, []);
+
+  const updateMonths = (storedTransactions: string) => {
+    let filteredMonths: string[] = [];
+    if (storedTransactions) {
+      filteredMonths = getFilteredTransactionsByMonth(
+        JSON.parse(storedTransactions)
+      );
+    }
+    const currentMonth = getMonthAndYear(
+      new Date(Date.now()).toISOString().slice(0, 10)
+    );
+
+    if (!filteredMonths.includes(currentMonth)) {
+      filteredMonths = [currentMonth, ...filteredMonths];
+    }
+    setMonths(filteredMonths);
+    setSelectedMonth(filteredMonths[0]);
+    console.log("filteredMonth ", filteredMonths);
+  };
+
+  useEffect(() => {
+    setFilteredTransactions(
+      transactions.filter(
+        (trans) => getMonthAndYear(trans.date) === selectedMonth
+      )
+    );
+  }, [selectedMonth, transactions]);
 
   useEffect(() => {
     if (transactions.length > 0) {
@@ -156,6 +205,12 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         SetIsDeleteTransactionModalOpen,
         isClearAllTransactions,
         setIsClearAllTransactions,
+        months,
+        setMonths,
+        filteredTransactions,
+        setFilteredTransactions,
+        selectedMonth,
+        setSelectedMonth,
       }}
     >
       {children}

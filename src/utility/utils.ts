@@ -7,7 +7,7 @@ export const getFormattedDateAndDay = (): string => {
     .toLocaleDateString("en-US", { weekday: "long" })
     .toUpperCase();
   const date = today.getDate().toString().padStart(2, "0");
-  return `${date}  ${day} `;
+  return `${date},  ${day} `;
 };
 
 export const getFormattedMonth = (): string => {
@@ -48,4 +48,33 @@ export const formatDate = (timestamp: number): string => {
     month: "2-digit",
     year: "numeric",
   });
+};
+
+const monthDictionary: any = {
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "Apr",
+  "05": "May",
+  "06": "Jun",
+  "07": "Jul",
+  "08": "Aug",
+  "09": "Sep",
+  "10": "Oct",
+  "11": "Nov",
+  "12": "Dec",
+};
+
+export const getMonthAndYear = (date: string) => {
+  const dateArray = date.toString().split("-");
+  const monthAndYear = monthDictionary[dateArray[1]] + "-" + dateArray[0];
+  return monthAndYear;
+};
+
+export const getFilteredTransactionsByMonth = (transactions: Transaction[]) => {
+  const months = transactions
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((trans) => getMonthAndYear(trans.date));
+
+  return Array.from(new Set(months));
 };

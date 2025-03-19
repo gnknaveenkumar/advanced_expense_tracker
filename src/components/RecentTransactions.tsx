@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   FaCircleArrowUp,
   FaIndianRupeeSign,
@@ -6,13 +6,19 @@ import {
 } from "react-icons/fa6";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 const RecentTransactions = () => {
-  const { transactions } = useContext(expenseTrackerDataContext);
+  const { transactions, isClearAllTransactions, setIsClearAllTransactions } =
+    useContext(expenseTrackerDataContext);
 
-  const recentTransactions = transactions.slice(-4).reverse();
-
+  let lastTransactions = transactions.slice(-4).reverse();
+  useEffect(() => {
+    if (isClearAllTransactions) {
+      lastTransactions = [];
+      setIsClearAllTransactions(false);
+    }
+  }, [isClearAllTransactions]);
   return (
     <div>
-      {recentTransactions.map((transaction, index) => (
+      {lastTransactions.map((transaction, index) => (
         <div
           key={index}
           className={`flex justify-between p-3 border border-white rounded-xl h-16 my-2

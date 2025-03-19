@@ -57,7 +57,6 @@ const AddTransactionModal = () => {
         isIncome,
         date,
       };
-      console.log("newTransaction", newTransaction);
       setTransactions((prevTransactions: any[]) => [
         ...prevTransactions,
         newTransaction,
@@ -218,7 +217,7 @@ const AddTransactionModal = () => {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
-              className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
+              className="border border-green-400 rounded-lg p-2.5  outline-none box-border w-full"
             />
 
             <button

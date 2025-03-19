@@ -16,6 +16,7 @@ const DeleteTransactionModal = () => {
     setBalance,
     setIncome,
     setExpense,
+    setFilteredTransactions,
   } = useContext(expenseTrackerDataContext);
 
   const handleOk = () => {
@@ -27,7 +28,7 @@ const DeleteTransactionModal = () => {
     }
     console.log("isclearalltrue", isClearAllTransactions);
     if (isClearAllTransactions) {
-      setTransactions([]);
+      setFilteredTransactions([]);
       localStorage.removeItem("transactions");
       setIncome(0);
       setBalance(0);
