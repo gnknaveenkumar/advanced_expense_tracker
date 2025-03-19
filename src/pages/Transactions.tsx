@@ -10,18 +10,14 @@ import { Transaction } from "../common/types";
 
 const Transactions = () => {
   const {
-    transactions,
     setTransactionAction,
     setIsAddTransactionModalOpen,
     SetIsDeleteTransactionModalOpen,
     setIsClearAllTransactions,
-    isClearAllTransactions,
     selectedMonth,
     setSelectedMonth,
     filteredTransactions,
-    setFilteredTransactions,
     months,
-    setMonths,
   } = useContext(expenseTrackerDataContext);
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
