@@ -13,7 +13,7 @@ const AddTransactionModal = () => {
     transactions,
   } = useContext(expenseTrackerDataContext);
 
-  const [money, setMoney] = useState<number>(0);
+  const [money, setMoney] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -51,7 +51,7 @@ const AddTransactionModal = () => {
     if (transactionAction.id === null) {
       const newTransaction: Transaction = {
         id,
-        money,
+        money: Number(money),
         category,
         description,
         isIncome,
@@ -69,7 +69,7 @@ const AddTransactionModal = () => {
       );
       if (updateTransaction) {
         updateTransaction.category = category;
-        updateTransaction.money = money;
+        updateTransaction.money = Number(money);
         updateTransaction.isIncome = isIncome;
         updateTransaction.description = description;
         updateTransaction.date = date;
@@ -78,7 +78,7 @@ const AddTransactionModal = () => {
       setTransactions(duplicateTransactions);
     }
 
-    setMoney(0);
+    setMoney("");
     setCategory("");
     setDescription("");
     setIsIncome(true);
@@ -158,7 +158,7 @@ const AddTransactionModal = () => {
             <input
               type="number"
               value={money}
-              onChange={(e) => setMoney(Number(e.target.value))}
+              onChange={(e) => setMoney(e.target.value)}
               placeholder="Enter money"
               className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
               required
