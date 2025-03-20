@@ -14,6 +14,7 @@ export const chartComparisonParameter = [
   "Income-Expense",
   "Income's Category",
   "Expense's Category",
+  "All Category",
 ];
 
 export const getFormattedMonth = (): string => {
@@ -25,38 +26,104 @@ export const getFormattedMonth = (): string => {
   return month;
 };
 
-export const getTransactionSummaryByType1 = (
-  transactions: Transaction[],
-  comparisonParam: string
-) => {};
-export const getTransactionSummaryByType = (
-  transactions: Transaction[],
-  comparisonParam: string
-) => {
-  const { incomeTotal, expenseTotal } = transactions.reduce(
-    (acc, transaction) => {
-      if (transaction.isIncome) {
-        acc.incomeTotal += transaction.money;
-      } else {
-        acc.expenseTotal += transaction.money;
-      }
-      return acc;
-    },
-    { incomeTotal: 0, expenseTotal: 0 }
-  );
+const getChartData = (data: any) => {
+  const chartData = Object.keys(data).map((k) => ({
+    name: k,
+    value: data[k],
+  }));
 
-  if (comparisonParam === chartComparisonParameter[0]) {
-  }
-
-  return {
-    incomeTotal,
-    expenseTotal,
-    chartData: [
-      { name: "Income", value: incomeTotal },
-      { name: "Expense", value: expenseTotal },
-    ],
-  };
+  return chartData;
 };
+
+export const getTransactionSummaryByTypes = (
+  transactions: Transaction[],
+  comparisonStr: string
+) => {
+  if (comparisonStr === chartComparisonParameter[0]) {
+    let incomeTotal = 0;
+    let expenseTotal = 0;
+
+    transactions.forEach((transaction) => {
+      if (transaction.isIncome) {
+        incomeTotal += transaction.money;
+      } else {
+        expenseTotal += transaction.money;
+      }
+    });
+
+    return {
+      chartData: [
+        { name: "Income", value: incomeTotal },
+        { name: "Expense", value: expenseTotal },
+      ],
+    };
+  } else if (comparisonStr === chartComparisonParameter[1]) {
+    const incomeCategories: any = {};
+    const incomeTransactions = transactions.filter((trans) => trans.isIncome);
+    incomeTransactions.forEach((tran) => {
+      if (incomeCategories.hasOwnProperty(tran.category)) {
+        incomeCategories[tran.category] += tran.money;
+      } else {
+        incomeCategories[tran.category] = tran.money;
+      }
+    });
+
+    const chartData = getChartData(incomeCategories);
+    return { chartData };
+  } else if (comparisonStr === chartComparisonParameter[2]) {
+    const expenseCategories: any = {};
+    const incomeTransactions = transactions.filter((trans) => !trans.isIncome);
+    incomeTransactions.forEach((tran) => {
+      if (expenseCategories.hasOwnProperty(tran.category)) {
+        expenseCategories[tran.category] += tran.money;
+      } else {
+        expenseCategories[tran.category] = tran.money;
+      }
+    });
+
+    const chartData = getChartData(expenseCategories);
+    return { chartData };
+  } else {
+    const allCategories: any = {};
+    const transactionsCopy = [...transactions];
+    transactionsCopy.forEach((tran) => {
+      if (allCategories.hasOwnProperty(tran.category)) {
+        allCategories[tran.category] += tran.money;
+      } else {
+        allCategories[tran.category] = tran.money;
+      }
+    });
+
+    const chartData = getChartData(allCategories);
+    return { chartData };
+  }
+};
+
+// export const getTransactionSummaryByType = (
+//   transactions: Transaction[],
+//   comparisonStr: string
+// ) => {
+//   const { incomeTotal, expenseTotal } = transactions.reduce(
+//     (acc, transaction) => {
+//       if (transaction.isIncome) {
+//         acc.incomeTotal += transaction.money;
+//       } else {
+//         acc.expenseTotal += transaction.money;
+//       }
+//       return acc;
+//     },
+//     { incomeTotal: 0, expenseTotal: 0 }
+//   );
+
+//   return {
+//     incomeTotal,
+//     expenseTotal,
+//     chartData: [
+//       { name: "Income", value: incomeTotal },
+//       { name: "Expense", value: expenseTotal },
+//     ],
+//   };
+// };
 
 export const formatDate = (timestamp: number): string => {
   return new Date(timestamp).toLocaleDateString("en-GB", {
