@@ -7,6 +7,7 @@ import {
   getMonthAndYear,
 } from "../utility/utils";
 import { Transaction } from "../common/types";
+import { Select } from "antd";
 
 const Transactions = () => {
   const {
@@ -17,12 +18,22 @@ const Transactions = () => {
     selectedMonth,
     setSelectedMonth,
     filteredTransactions,
+    setSelectedClreadBy,
+    selectedClearyBy,
     months,
   } = useContext(expenseTrackerDataContext);
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = e.target.value;
     setSelectedMonth(selected);
+  };
+
+  console.log("setSelectedClreadBy", selectedClearyBy);
+
+  const onChage = (value: string) => {
+    setSelectedClreadBy(value);
+    setIsClearAllTransactions(true);
+    SetIsDeleteTransactionModalOpen(true);
   };
 
   return (
@@ -33,21 +44,21 @@ const Transactions = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 ml-4 mb-2">
           {/* <label className="font-bold">Filter by Month:</label> */}
-          <select
+
+          <Select
+            className="w-24"
+            placeholder="Month"
             value={selectedMonth}
-            onChange={handleMonthChange}
-            className=" h-8 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            {/* <option value="">All Months</option> */}
-            {months.map((month, index) => (
-              <option key={index} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
+            style={{ width: "100px" }}
+            onChange={(value) => setSelectedMonth(value)}
+            options={months.map((month, index) => ({
+              label: month,
+              value: month,
+            }))}
+          ></Select>
         </div>
         <div className="flex justify-end">
-          <button
+          {/* <button
             onClick={() => {
               setIsClearAllTransactions(true);
               SetIsDeleteTransactionModalOpen(true);
@@ -55,7 +66,17 @@ const Transactions = () => {
             className="border bg-red-500 text-white flex justify-center w-20 rounded-3xl items-center   mr-2 h-8 mb-2"
           >
             Clear All
-          </button>
+          </button> */}
+          <p>Clear </p>
+          <Select
+            defaultValue="Clear All"
+            onChange={onChage}
+            style={{ width: 120 }}
+            options={[
+              { value: "All", label: "All" },
+              { value: " By Month", label: "By Month" },
+            ]}
+          />
           <button
             onClick={() => {
               setIsAddTransactionModalOpen(true);

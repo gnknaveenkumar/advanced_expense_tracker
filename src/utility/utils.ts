@@ -10,6 +10,12 @@ export const getFormattedDateAndDay = (): string => {
   return `${date},  ${day} `;
 };
 
+export const chartComparisonParameter = [
+  "Income-Expense",
+  "Income's Category",
+  "Expense's Category",
+];
+
 export const getFormattedMonth = (): string => {
   const day = today;
   const month = today
@@ -19,7 +25,14 @@ export const getFormattedMonth = (): string => {
   return month;
 };
 
-export const getTransactionSummaryByType = (transactions: Transaction[]) => {
+export const getTransactionSummaryByType1 = (
+  transactions: Transaction[],
+  comparisonParam: string
+) => {};
+export const getTransactionSummaryByType = (
+  transactions: Transaction[],
+  comparisonParam: string
+) => {
   const { incomeTotal, expenseTotal } = transactions.reduce(
     (acc, transaction) => {
       if (transaction.isIncome) {
@@ -31,6 +44,9 @@ export const getTransactionSummaryByType = (transactions: Transaction[]) => {
     },
     { incomeTotal: 0, expenseTotal: 0 }
   );
+
+  if (comparisonParam === chartComparisonParameter[0]) {
+  }
 
   return {
     incomeTotal,

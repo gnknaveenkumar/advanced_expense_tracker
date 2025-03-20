@@ -35,6 +35,8 @@ const expenseTrackerDataContext = createContext<{
   setFilteredTransactions: Function;
   selectedMonth: string;
   setSelectedMonth: Function;
+  selectedClearyBy: string;
+  setSelectedClreadBy: Function;
 }>({
   name: "",
   setName: () => {},
@@ -62,6 +64,8 @@ const expenseTrackerDataContext = createContext<{
   setFilteredTransactions: () => {},
   selectedMonth: "",
   setSelectedMonth: () => {},
+  selectedClearyBy: "",
+  setSelectedClreadBy: () => {},
 });
 
 type props = {
@@ -80,6 +84,7 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   const [isAddTransactionModalOpen, setIsAddTransactionModalOpen] =
     useState(false);
   const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [selectedClearyBy, setSelectedClreadBy] = useState<string>("");
   const [transactionAction, setTransactionAction] = useState<TransactionType>({
     id: null,
     action: null,
@@ -131,7 +136,6 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     }
     setMonths(filteredMonths);
     setSelectedMonth(filteredMonths[0]);
-    console.log("filteredMonth ", filteredMonths);
   };
 
   useEffect(() => {
@@ -211,6 +215,8 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setFilteredTransactions,
         selectedMonth,
         setSelectedMonth,
+        selectedClearyBy,
+        setSelectedClreadBy,
       }}
     >
       {children}

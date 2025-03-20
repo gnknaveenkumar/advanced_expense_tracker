@@ -11,7 +11,6 @@ import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 const NavBar = () => {
   const { setIsAddTransactionModalOpen, isAddTransactionModalOpen } =
     useContext(expenseTrackerDataContext);
-  console.log("nav isAddTransactionModalOpen ", isAddTransactionModalOpen);
   return (
     <div className="flex justify-around gap-5 border-indigo-500 m-2  bg-gray-200 items-center">
       <NavLink
@@ -34,7 +33,6 @@ const NavBar = () => {
       </NavLink> */}
       <button
         onClick={() => {
-          console.log("clicked here", isAddTransactionModalOpen);
           setIsAddTransactionModalOpen(true);
         }}
         className="text-blue-500"
