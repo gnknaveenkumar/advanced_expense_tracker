@@ -4,6 +4,7 @@ import AddTransactionModal from "../components/AddTransactionModal";
 import DeleteTransactionModal from "../components/DeleteTransactionModal";
 import { json } from "react-router-dom";
 import {
+  getClearTitle,
   getFilteredTransactionsByMonth,
   getMonthAndYear,
 } from "../utility/utils";
@@ -186,6 +187,42 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     setExpense(expense);
   }, [transactions]);
 
+  const onDeleteConfirm = () => {
+    if (transactionAction.action === "DELETE") {
+      const updatedTransactions = transactions.filter(
+        (trans: any) => trans.id !== transactionAction.id
+      );
+      setTransactions(updatedTransactions);
+    }
+    if (isClearAllTransactions) {
+      if (selectedClearyBy === "All") {
+        setFilteredTransactions([]);
+        localStorage.removeItem("transactions");
+        setIncome(0);
+        setBalance(0);
+        setExpense(0);
+        setIsClearAllTransactions(false);
+      } else if (selectedClearyBy === "Selected Month") {
+        console.log("selected this month", selectedClearyBy);
+        setFilteredTransactions([]);
+      }
+    }
+    setTransactionAction({
+      id: null,
+      action: null,
+    });
+    SetIsDeleteTransactionModalOpen(false);
+  };
+
+  const onCancelCinfirm = () => {
+    setTransactionAction({
+      id: null,
+      action: null,
+    });
+    setIsClearAllTransactions(false);
+    SetIsDeleteTransactionModalOpen(false);
+  };
+
   return (
     <expenseTrackerDataContext.Provider
       value={{
@@ -221,7 +258,24 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     >
       {children}
       {isAddTransactionModalOpen && <AddTransactionModal />}
-      {isDeleteTransactionModalOpen && <DeleteTransactionModal />}
+      {isDeleteTransactionModalOpen && (
+        <DeleteTransactionModal
+          onCofirm={onDeleteConfirm}
+          infoMessage={
+            selectedClearyBy === "All"
+              ? "Are you sure you want to delete all the transactions?"
+              : selectedClearyBy === "Selected_Month"
+              ? "Are you sure you want to delete selected month's transactions?"
+              : "Are you sure you want to delete this transaction?"
+          }
+          title={getClearTitle(selectedClearyBy)}
+          onConfirmBtnText={isClearAllTransactions ? "Delete All" : "Delete"}
+          open={isDeleteTransactionModalOpen}
+          onCancel={() => {
+            onCancelCinfirm();
+          }}
+        />
+      )}
     </expenseTrackerDataContext.Provider>
   );
 };

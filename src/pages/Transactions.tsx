@@ -68,14 +68,14 @@ const Transactions = () => {
           >
             Clear All
           </button> */}
-          <p>Clear </p>
+
           <Select
             defaultValue="Clear All"
             onChange={onChage}
             style={{ width: 120 }}
             options={[
               { value: "All", label: "All" },
-              { value: " By Month", label: "By Month" },
+              { value: " Selected_Month", label: "Selected_Month" },
             ]}
           />
           <button

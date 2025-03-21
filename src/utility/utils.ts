@@ -10,6 +10,7 @@ export const getFormattedDateAndDay = (): string => {
   return `${date},  ${day} `;
 };
 
+export const chartTypes = ["pie", "donut", "bar"];
 export const chartComparisonParameter = [
   "Income-Expense",
   "Income's Category",
@@ -160,4 +161,15 @@ export const getFilteredTransactionsByMonth = (transactions: Transaction[]) => {
     .map((trans) => getMonthAndYear(trans.date));
 
   return Array.from(new Set(months));
+};
+
+export const getClearTitle = (selectedClearyBy: string) => {
+  switch (selectedClearyBy) {
+    case "All":
+      return "Delete All Transactions";
+    case "Selected_Month":
+      return "Delete Selected Month's Transactions";
+    default:
+      return "Delete Selected Transaction";
+  }
 };

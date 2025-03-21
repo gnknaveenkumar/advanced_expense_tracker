@@ -8,7 +8,7 @@ interface ChartData {
 
 interface Props {
   data: ChartData[];
-  chartType: "pie" | "donut";
+  chartType: string;
   title?: string;
 }
 const Charts: React.FC<Props> = ({ data, chartType, title }) => {
