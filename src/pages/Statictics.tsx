@@ -7,6 +7,7 @@ import {
 } from "../utility/utils";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 import _ from "lodash";
+import BarChart from "../components/BarChart";
 
 const Statictics = () => {
   const { selectedMonth, setSelectedMonth, months, filteredTransactions } =
@@ -31,6 +32,9 @@ const Statictics = () => {
     const selected = e.target.value;
     setSelectedMonth(selected);
   };
+
+  const lables = chartData.map((item) => item.name);
+  const values = chartData.map((item) => item.value);
 
   return (
     <div className="p-4 m-auto ">
@@ -91,11 +95,16 @@ const Statictics = () => {
       </div>
       <div className="mt-10">
         {/* <Charts data={chartData} chartType="pie" title={chartComparisonStr} /> */}
-        <Charts
+        {/* <Charts
           data={chartData}
           chartType={chartType}
           title={chartComparisonStr}
-        />
+        /> */}
+        <div style={{ overflowX: "auto", width: "100%" }}>
+          <div style={{ minWidth: "800px" }}>
+            <BarChart data={values} labels={lables} />
+          </div>
+        </div>
       </div>
     </div>
   );
