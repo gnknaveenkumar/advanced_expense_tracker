@@ -29,8 +29,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && copy _redirects build\\_redirects",
-    "deploy": "react-scripts build",
+    "build": "react-scripts build && npm run postbuild",
+    "postbuild": "cpx _redirects build/",
+    "deploy": "npm run build && netlify deploy --prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -56,6 +57,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.16",
+    "cpx": "^1.5.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1"
   }
