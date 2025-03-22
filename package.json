@@ -1,5 +1,5 @@
 {
-  "name": "nurturing-dreams-foundation-ui",
+  "name": "expense-tracker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,7 +29,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && copy _redirects build\\_redirects",
+    "deploy": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
