@@ -30,6 +30,8 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
         data: data,
         type: "bar",
         barWidth: 20,
+        barGap: 0,
+        barCategoryGap: "10%",
         itemStyle: {
           color: "#4CAF50", // Custom green color
         },
@@ -39,8 +41,13 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
 
   return (
     <div>
-      <h2 className="text-lg font-bold mb-4">Weekly Sales Report</h2>
-      <ReactECharts option={option} style={{ height: 300 }} />
+      <div style={{ overflowX: "auto", width: "100%" }}>
+        <h2 className="text-lg font-bold mb-4">Weekly Sales Report</h2>
+        <ReactECharts
+          option={option}
+          style={{ height: 300, minWidth: "800px" }}
+        />
+      </div>
     </div>
   );
 };

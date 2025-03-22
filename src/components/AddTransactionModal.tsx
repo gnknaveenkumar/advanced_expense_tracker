@@ -207,7 +207,6 @@ const AddTransactionModal = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
-              required
               className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
             />
 

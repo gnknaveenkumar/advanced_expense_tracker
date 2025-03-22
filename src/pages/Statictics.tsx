@@ -95,16 +95,15 @@ const Statictics = () => {
       </div>
       <div className="mt-10">
         {/* <Charts data={chartData} chartType="pie" title={chartComparisonStr} /> */}
-        {/* <Charts
-          data={chartData}
-          chartType={chartType}
-          title={chartComparisonStr}
-        /> */}
-        <div style={{ overflowX: "auto", width: "100%" }}>
-          <div style={{ minWidth: "800px" }}>
-            <BarChart data={values} labels={lables} />
-          </div>
-        </div>
+        {chartType === "bar" ? (
+          <BarChart data={values} labels={lables} />
+        ) : (
+          <Charts
+            data={chartData}
+            chartType={chartType}
+            title={chartComparisonStr}
+          />
+        )}
       </div>
     </div>
   );
