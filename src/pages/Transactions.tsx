@@ -29,8 +29,6 @@ const Transactions = () => {
     setSelectedMonth(selected);
   };
 
-  console.log("setSelectedClreadBy", selectedClearyBy);
-
   const onChage = (value: string) => {
     setSelectedClreadBy(value);
     setIsClearAllTransactions(true);
@@ -58,7 +56,7 @@ const Transactions = () => {
             }))}
           ></Select>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-2">
           {/* <button
             onClick={() => {
               setIsClearAllTransactions(true);
@@ -70,12 +68,13 @@ const Transactions = () => {
           </button> */}
 
           <Select
-            defaultValue="Clear All"
+            defaultValue="Delete All"
             onChange={onChage}
-            style={{ width: 120 }}
+            style={{ width: 120, color: "red", backgroundColor: "#ffebee" }}
+            dropdownStyle={{ backgroundColor: "#ffebee" }}
             options={[
               { value: "All", label: "All" },
-              { value: " Selected_Month", label: "Selected_Month" },
+              { value: "Selected_Month", label: "Selected_Month" },
             ]}
           />
           <button

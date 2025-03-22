@@ -150,6 +150,16 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   useEffect(() => {
     if (transactions.length > 0) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+
+      let filteredMonths = getFilteredTransactionsByMonth(transactions);
+      const currentMonth = getMonthAndYear(
+        new Date(Date.now()).toISOString().slice(0, 10)
+      );
+
+      if (!filteredMonths.includes(currentMonth)) {
+        filteredMonths = [currentMonth, ...filteredMonths];
+      }
+      setMonths(filteredMonths);
     }
   }, [transactions]);
 
@@ -166,7 +176,13 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   }, [name]);
 
   useEffect(() => {
-    if (transactions.length === 0) return;
+    if (transactions.length === 0) {
+      setIncome(0);
+      setExpense(0);
+      setBalance(0);
+
+      return;
+    }
 
     const income = transactions.length
       ? transactions
@@ -196,16 +212,18 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
     }
     if (isClearAllTransactions) {
       if (selectedClearyBy === "All") {
-        setFilteredTransactions([]);
+        setTransactions([]);
         localStorage.removeItem("transactions");
         setIncome(0);
         setBalance(0);
         setExpense(0);
-        setIsClearAllTransactions(false);
-      } else if (selectedClearyBy === "Selected Month") {
-        console.log("selected this month", selectedClearyBy);
-        setFilteredTransactions([]);
+      } else if (selectedClearyBy === "Selected_Month") {
+        const updatedTransactions = transactions.filter(
+          (trans) => getMonthAndYear(trans.date) !== selectedMonth
+        );
+        setTransactions(updatedTransactions);
       }
+      setIsClearAllTransactions(false);
     }
     setTransactionAction({
       id: null,

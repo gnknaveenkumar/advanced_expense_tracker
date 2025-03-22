@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, Switch } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 import { Transaction } from "../common/types";
@@ -16,7 +16,9 @@ const AddTransactionModal = () => {
   const [money, setMoney] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<string>(
+    new Date().toISOString().split("T")[0]
+  );
   const [isIncome, setIsIncome] = useState<boolean>(true);
   const [id, setId] = useState<number>(Date.now());
 
@@ -163,6 +165,13 @@ const AddTransactionModal = () => {
               required
             />
 
+            <input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter description"
+              className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
+            />
             {/* Toggle Button (Income / Expense) */}
             <button
               type="button"
@@ -202,20 +211,13 @@ const AddTransactionModal = () => {
               ))}
             </select>
 
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter description"
-              className="border border-green-400 rounded-lg p-2.5  outline-none box-border"
-            />
-
             {/* Date Picker */}
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
+              placeholder="DD-MM-YYYY"
               className="border border-green-400 rounded-lg p-2.5  outline-none box-border w-full"
             />
 
