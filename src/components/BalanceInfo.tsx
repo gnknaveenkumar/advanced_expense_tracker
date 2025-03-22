@@ -22,7 +22,7 @@ const BalanceInfo = () => {
             <span className="text-lg">{income}</span>
           </div>
         </div>
-        <div className="flex justify-center items-center gap-3 p-2 w-40 bg-green-500 rounded-2xl text-white ">
+        <div className="flex justify-center items-center gap-3 p-2 w-40 bg-red-500 rounded-2xl text-white ">
           <div>
             <FaFolderMinus size={30} />
           </div>

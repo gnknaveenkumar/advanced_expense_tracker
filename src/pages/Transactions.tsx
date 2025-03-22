@@ -57,20 +57,13 @@ const Transactions = () => {
           ></Select>
         </div>
         <div className="flex justify-end gap-2">
-          {/* <button
-            onClick={() => {
-              setIsClearAllTransactions(true);
-              SetIsDeleteTransactionModalOpen(true);
-            }}
-            className="border bg-red-500 text-white flex justify-center w-20 rounded-3xl items-center   mr-2 h-8 mb-2"
-          >
-            Clear All
-          </button> */}
-
           <Select
             defaultValue="Delete All"
             onChange={onChage}
-            style={{ width: 120, color: "red", backgroundColor: "#ffebee" }}
+            style={{
+              width: 120,
+              color: "red",
+            }}
             dropdownStyle={{ backgroundColor: "#ffebee" }}
             options={[
               { value: "All", label: "All" },
