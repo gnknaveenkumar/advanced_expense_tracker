@@ -17,8 +17,6 @@ const RecentTransactions = () => {
   //   }
   // }, [isClearAllTransactions]);
 
-  console.log("recent transactions ", transactions);
-
   return (
     <div>
       {transactions

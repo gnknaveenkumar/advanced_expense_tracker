@@ -1,6 +1,3 @@
-import useConfig from "antd/es/config-provider/hooks/useConfig";
-import { useContext } from "react";
-import { expenseTrackerDataContext } from "../contexts/expenseTrackerContext";
 import { Modal } from "antd";
 
 type DeleteTransactionModalProps = {
@@ -28,7 +25,7 @@ const DeleteTransactionModal = ({
         onCancel={() => {
           onCancel();
         }}
-        maskClosable={false}
+        maskClosable={true}
         footer={null}
       >
         <div className="flex flex-col ">

@@ -8,6 +8,8 @@ import {
   getFilteredTransactionsByMonth,
   getMonthAndYear,
 } from "../utility/utils";
+import DeleteAllTransactionModal from "../components/DeleteAllTransactionModal";
+import { deleteAllOptions } from "../utility/constants";
 
 const expenseTrackerDataContext = createContext<{
   name: string;
@@ -38,6 +40,8 @@ const expenseTrackerDataContext = createContext<{
   setSelectedMonth: Function;
   selectedClearyBy: string;
   setSelectedClreadBy: Function;
+  isDeleteAllTransactionModalOpen: boolean;
+  setIsDeleteAllTransactionModalOpen: Function;
 }>({
   name: "",
   setName: () => {},
@@ -67,6 +71,8 @@ const expenseTrackerDataContext = createContext<{
   setSelectedMonth: () => {},
   selectedClearyBy: "",
   setSelectedClreadBy: () => {},
+  isDeleteAllTransactionModalOpen: false,
+  setIsDeleteAllTransactionModalOpen: () => {},
 });
 
 type props = {
@@ -92,6 +98,8 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
   });
 
   const [isDeleteTransactionModalOpen, SetIsDeleteTransactionModalOpen] =
+    useState<boolean>(false);
+  const [isDeleteAllTransactionModalOpen, setIsDeleteAllTransactionModalOpen] =
     useState<boolean>(false);
 
   const [isClearAllTransactions, setIsClearAllTransactions] =
@@ -210,20 +218,34 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
       );
       setTransactions(updatedTransactions);
     }
+
+    setTransactionAction({
+      id: null,
+      action: null,
+    });
+    SetIsDeleteTransactionModalOpen(false);
+  };
+
+  const onDeleteAllConfirm = (selectedOption: string) => {
+    console.log("selectedOption ", selectedOption);
     if (isClearAllTransactions) {
-      if (selectedClearyBy === "All") {
+      console.log("1111", selectedClearyBy);
+      if (selectedClearyBy === deleteAllOptions.ALL) {
+        console.log("2222");
         setTransactions([]);
         localStorage.removeItem("transactions");
         setIncome(0);
         setBalance(0);
         setExpense(0);
-      } else if (selectedClearyBy === "Selected_Month") {
+      } else if (selectedClearyBy === deleteAllOptions.BY_MONTH) {
+        console.log("3333");
         const updatedTransactions = transactions.filter(
           (trans) => getMonthAndYear(trans.date) !== selectedMonth
         );
         setTransactions(updatedTransactions);
       }
       setIsClearAllTransactions(false);
+      setIsDeleteAllTransactionModalOpen(false);
     }
     setTransactionAction({
       id: null,
@@ -272,6 +294,8 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
         setSelectedMonth,
         selectedClearyBy,
         setSelectedClreadBy,
+        isDeleteAllTransactionModalOpen,
+        setIsDeleteAllTransactionModalOpen,
       }}
     >
       {children}
@@ -279,21 +303,17 @@ const ExpenseTrackerContext: FC<props> = ({ children }) => {
       {isDeleteTransactionModalOpen && (
         <DeleteTransactionModal
           onCofirm={onDeleteConfirm}
-          infoMessage={
-            selectedClearyBy === "All"
-              ? "Are you sure you want to delete all the transactions?"
-              : selectedClearyBy === "Selected_Month"
-              ? "Are you sure you want to delete selected month's transactions?"
-              : "Are you sure you want to delete this transaction?"
-          }
+          infoMessage="Are you sure you want to delete this transaction?"
           title={getClearTitle(selectedClearyBy)}
-          onConfirmBtnText={isClearAllTransactions ? "Delete All" : "Delete"}
+          onConfirmBtnText="Delete"
           open={isDeleteTransactionModalOpen}
           onCancel={() => {
             onCancelCinfirm();
           }}
         />
       )}
+
+      <DeleteAllTransactionModal onDeleteAllConfirm={onDeleteAllConfirm} />
     </expenseTrackerDataContext.Provider>
   );
 };

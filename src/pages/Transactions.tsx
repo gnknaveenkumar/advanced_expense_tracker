@@ -22,6 +22,7 @@ const Transactions = () => {
     setSelectedClreadBy,
     selectedClearyBy,
     months,
+    setIsDeleteAllTransactionModalOpen,
   } = useContext(expenseTrackerDataContext);
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,7 +58,7 @@ const Transactions = () => {
           ></Select>
         </div>
         <div className="flex justify-end gap-2">
-          <Select
+          {/* <Select
             defaultValue="Delete All"
             onChange={onChage}
             style={{
@@ -69,7 +70,17 @@ const Transactions = () => {
               { value: "All", label: "All" },
               { value: "Selected_Month", label: "Selected_Month" },
             ]}
-          />
+          /> */}
+
+          <button
+            onClick={() => {
+              setIsDeleteAllTransactionModalOpen(true);
+              setIsClearAllTransactions(true);
+            }}
+            className="border bg-red-500 text-white flex justify-center w-20 rounded-3xl items-center   mr-2 h-8 mb-2"
+          >
+            Delete All
+          </button>
           <button
             onClick={() => {
               setIsAddTransactionModalOpen(true);
